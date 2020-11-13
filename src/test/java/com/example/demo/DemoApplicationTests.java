@@ -74,6 +74,16 @@ class DemoApplicationTests {
     }
 
     @Test
+    public void test1(){
+        Date date=new Date();
+        Time time=new Time(System.currentTimeMillis());
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        System.out.println(date);
+        System.out.println(time);
+        System.out.println(timestamp);
+
+    }
+    @Test
     @Order(1)
     public void testUser1(){
         i++;

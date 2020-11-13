@@ -10,16 +10,21 @@ import com.example.demo.utils.Response;
 import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
 import com.example.demo.utils.timemapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +86,7 @@ public class FeedBackController {
             @RequestParam(required = false) Date startleft,
             @RequestParam(required = false) Date startright,
             @RequestParam(required = false) Date endleft,
-            @RequestParam(required = false) Date endright
+            @ApiParam(name = "test") @RequestParam(required = false) Date endright
     ){
         List<FeedBack> feedBacks;
         feedBacks=feedBackService.findByArgs(saying,state,userID,backsaying,startleft,startright,endleft,endright);
