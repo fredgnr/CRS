@@ -29,15 +29,15 @@ public class FeedBackService {
     }
 
     public List<FeedBack> findByArgs(String saying, Integer state, String userID, String backsaying,
-                                     Date startleft,
-                                     Date startright,
-                                     Date endleft,
-                                     Date endright) {
+                                     String startleft,
+                                     String startright,
+                                     String endleft,
+                                     String endright) {
         return iFeedBackDao.findByArgs(saying,state,userID,backsaying,
-                startleft!=null? timemapper.date2timestamp(startleft):null,
-                startright!=null? timemapper.date2timestamp(startright):null,
-                endleft!=null? timemapper.date2timestamp(endleft):null,
-                endright!=null? timemapper.date2timestamp(endright):null);
+                startleft!=null? timemapper.datestr2timestamp(startleft):null,
+                startright!=null? timemapper.datestr2timestamp(startright):null,
+                endleft!=null? timemapper.datestr2timestamp(endleft):null,
+                endright!=null? timemapper.datestr2timestamp(endright):null);
     }
 
     public void addFeedBack(FeedBack feedBack){

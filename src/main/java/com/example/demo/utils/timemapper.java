@@ -1,7 +1,5 @@
 package com.example.demo.utils;
 
-import org.joda.time.DateTime;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +28,16 @@ public class timemapper {
             return new Timestamp(date.getTime());
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    static public Timestamp datestr2timestamp(String datestr){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+        try {
+            Date date=sdf.parse(datestr);
+            return new Timestamp(date.getTime());
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;

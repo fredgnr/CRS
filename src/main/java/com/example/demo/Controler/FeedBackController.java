@@ -83,22 +83,25 @@ public class FeedBackController {
             @RequestParam(required = false) Integer state,
             @RequestParam(required = false) String userID,
             @RequestParam(required = false) String backsaying,
-            @RequestParam(required = false) Date startleft,
-            @RequestParam(required = false) Date startright,
-            @RequestParam(required = false) Date endleft,
-            @ApiParam(name = "test") @RequestParam(required = false) Date endright
+            @RequestParam(required = false) String startleft,
+            @RequestParam(required = false) String startright,
+            @RequestParam(required = false) String endleft,
+            @RequestParam(required = false) String endright
     ){
-        List<FeedBack> feedBacks;
+       /* List<FeedBack> feedBacks;
         feedBacks=feedBackService.findByArgs(saying,state,userID,backsaying,startleft,startright,endleft,endright);
-        return Response.makeOKRsp(feedBacks);
+        return Response.makeOKRsp(feedBacks);*/
+        System.out.println(timemapper.datestr2timestamp(startleft));
+        return Response.makeOKRsp("ok");
     }
 
     @ApiOperation(value = "用户提交反馈")
     @PostMapping("/user")
     @Transactional
     public ResponseResult<FeedBack> postresponse(
-            @RequestParam String userid,@RequestParam String password,
-            @RequestBody FeedBack feedBack
+            @RequestParam String userid,
+            @RequestParam String password,
+            @RequestParam String saying
     ){
         User superuser=userService.findByID(userid);
         if(superuser==null){
@@ -108,8 +111,10 @@ public class FeedBackController {
             return Response.makeRsp(ResultCode.PASSWORD_WRONG.code,"密码错误");
         }
         else{
-            feedBack.setProcessTime(null);
+            FeedBack feedBack=new FeedBack();
+            feedBack.setSaying(saying);
             feedBack.setSendTime(new Timestamp(System.currentTimeMillis()));
+            feedBack.setProcessTime(null);
             feedBack.setState(StateCode.UNPROCESSED.code);
             feedBack.setBacksaying("");
             feedBackService.addFeedBack(feedBack);
@@ -140,7 +145,7 @@ public class FeedBackController {
             if(feedBack==null)
                 return Response.makeRsp(ResultCode.FEEDBACK_NOT_EXIST.code,"id为"+feedbackid+"的请求不存在");
             feedBack.setBacksaying(backsaying);
-            feedBack.setProcessTime( new Timestamp(System.currentTimeMillis()));
+            feedBack.setProcessTime(new Timestamp(System.currentTimeMillis()));
             feedBack.setState(StateCode.PROCESSED.code);
             feedBackService.updateFeedBack(feedBack);
             return Response.makeOKRsp(feedBack);
