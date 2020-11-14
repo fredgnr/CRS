@@ -65,7 +65,7 @@ public class FeedBackController {
     @GetMapping("/user")
     @ApiOperation(value = "用户获取自己的反馈")
     @Transactional
-    public  ResponseResult<List<FeedBack>> userget(@RequestParam String id){
+    public  ResponseResult<List<FeedBack>> userget(@ApiParam(value = "查询账号")@RequestParam String id){
         User user=userService.findByID(id);
         if(user==null)
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,"不存在此账号");
@@ -79,14 +79,14 @@ public class FeedBackController {
     @ApiOperation(value="多参数查找反馈")
     @Transactional
     public ResponseResult<List<FeedBack>> findbyArgs(
-            @RequestParam(required = false) String saying ,
-            @RequestParam(required = false) Integer state,
-            @RequestParam(required = false) String userID,
-            @RequestParam(required = false) String backsaying,
-            @RequestParam(required = false) String startleft,
-            @RequestParam(required = false) String startright,
-            @RequestParam(required = false) String endleft,
-            @RequestParam(required = false) String endright
+            @ApiParam(value = "反馈（模糊搜索）")@RequestParam(required = false) String saying ,
+            @ApiParam(value = "状态（1为已处理，2为未处理）")@RequestParam(required = false) Integer state,
+            @ApiParam(value = "账号")@RequestParam(required = false) String userID,
+            @ApiParam(value = "管理员回复")@RequestParam(required = false) String backsaying,
+            @ApiParam(value = "发送时间左界限（格式为yyyy-MM-dd HH:mm:ss）")@RequestParam(required = false) String startleft,
+            @ApiParam(value = "发送时间右界限（格式为yyyy-MM-dd HH:mm:ss）")@RequestParam(required = false) String startright,
+            @ApiParam(value = "处理时间左界限（格式为yyyy-MM-dd HH:mm:ss）")@RequestParam(required = false) String endleft,
+            @ApiParam(value = "处理时间右界限（格式为yyyy-MM-dd HH:mm:ss）")@RequestParam(required = false) String endright
     ){
         List<FeedBack> feedBacks;
         feedBacks=feedBackService.findByArgs(saying,state,userID,backsaying,startleft,startright,endleft,endright);
@@ -98,9 +98,9 @@ public class FeedBackController {
     @PostMapping("/user")
     @Transactional
     public ResponseResult<FeedBack> postresponse(
-            @RequestParam String userid,
-            @RequestParam String password,
-            @RequestParam String saying
+            @ApiParam(value = "账号")@RequestParam String userid,
+            @ApiParam(value = "密码")@RequestParam String password,
+            @ApiParam(value = "反馈")@RequestParam String saying
     ){
         User superuser=userService.findByID(userid);
         if(superuser==null){
@@ -126,10 +126,10 @@ public class FeedBackController {
     @PutMapping("/manager")
     @Transactional
     public ResponseResult<FeedBack> putresponse(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestParam Integer feedbackid,
-            @RequestParam String backsaying){
+            @ApiParam(value = "管理员账号")@RequestParam String id,
+            @ApiParam(value = "管理员密码")@RequestParam String password,
+            @ApiParam(value = "回复的反馈ID")@RequestParam Integer feedbackid,
+            @ApiParam(value = "管理员反馈回复")@RequestParam String backsaying){
         User superuser=userService.findByID(id);
         if(superuser==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,"账号错误");

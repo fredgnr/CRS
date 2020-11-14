@@ -10,6 +10,7 @@ import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +49,9 @@ public class ClassRoomController {
     @ApiOperation(value="管理员添加教室")
     @Transactional
     public ResponseResult<ClassRoom> add(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestBody ClassRoom classRoom){
+            @ApiParam(value = "管理员账号")@RequestParam String id,
+            @ApiParam(value = "管理员账号")@RequestParam String password,
+            @ApiParam(value = "教室信息")@RequestBody ClassRoom classRoom){
         User superuser=userService.findByID(id);
         if(superuser==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,"账号错误");
@@ -78,9 +79,9 @@ public class ClassRoomController {
     @ApiOperation(value="管理员修改教室信息")
     @Transactional
     public ResponseResult<ClassRoom> changeinfo(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestBody ClassRoom classRoom){
+            @ApiParam(value = "管理员账号") @RequestParam String id,
+            @ApiParam(value = "管理员账号")@RequestParam String password,
+            @ApiParam(value = "教师信息类")@RequestBody ClassRoom classRoom){
         User superuser=userService.findByID(id);
         if(superuser==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,"账号错误");
@@ -103,12 +104,12 @@ public class ClassRoomController {
     }
 
     @DeleteMapping("/deleteclassroom")
-    @ApiOperation(value="管理员修改教室信息")
+    @ApiOperation(value="管理员删除教室")
     @Transactional
     public ResponseResult<ClassRoom> delete(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestBody ClassRoom classRoom){
+            @ApiParam(value = "管理员账号")@RequestParam String id,
+            @ApiParam(value = "管理员密码")@RequestParam String password,
+            @ApiParam(value = "教室信息类")@RequestBody ClassRoom classRoom){
         User superuser=userService.findByID(id);
         if(superuser==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,"账号错误");

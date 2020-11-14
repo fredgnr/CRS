@@ -81,13 +81,13 @@ public interface IFeedBackDao {
     List<FeedBack> findByUserID(@Param("userID") String userid);
 
     @Select("select * from FeedBacks " +
-            "where unix_timestamp(#{end})<=unix_timestamp(sendTime)" +
-            "and unix_timestamp(#{start})>=unix_timestamp(sendTime)")
+            "where unix_timestamp(#{start})<=unix_timestamp(sendTime)" +
+            "and unix_timestamp(#{end})>=unix_timestamp(sendTime)")
     List<FeedBack> findBySendTime(@Param("start") Timestamp start,@Param("end") Timestamp end);
 
     @Select("select * from FeedBacks " +
-            "where unix_timestamp(#{end})<=unix_timestamp(processTime)" +
-            "and unix_timestamp(#{start})>=unix_timestamp(processTime)" +
+            "where unix_timestamp(#{start})<=unix_timestamp(processTime)" +
+            "and unix_timestamp(#{end})>=unix_timestamp(processTime)" +
             " and state=2")
     List<FeedBack> findByProcessTime(@Param("start") Timestamp start,@Param("end") Timestamp end);
 }

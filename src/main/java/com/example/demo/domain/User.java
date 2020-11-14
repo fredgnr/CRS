@@ -13,10 +13,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.TreeMap;
 
-@Data
-@ToString
-@NoArgsConstructor
-@EqualsAndHashCode
 @ApiModel(description = "用户信息")
 public class User implements Serializable {
     @ApiModelProperty(value="账号",required = true)
@@ -29,4 +25,46 @@ public class User implements Serializable {
 
     @ApiModelProperty(hidden = true)
     Integer priority;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getM_password() {
+        return m_password;
+    }
+
+    public void setM_password(String m_password) {
+        this.m_password = m_password;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", userName='" + userName + '\'' +
+                ", m_password='" + m_password + '\'' +
+                ", priority=" + priority +
+                '}';
+    }
 }

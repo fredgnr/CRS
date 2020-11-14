@@ -6,7 +6,9 @@ import com.example.demo.utils.Response;
 import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +41,8 @@ public class UserController {
     @ApiOperation(value = "根据id获取用户信息")
     @Transactional
     public ResponseResult<User> getuser(
-            @RequestParam String id,
-            @RequestParam String password
+            @ApiParam(value = "账号") @RequestParam String id,
+            @ApiParam(value = "密码") @RequestParam String password
     ){
         User user=userService.findByID(id);
         if(user==null){
@@ -60,7 +62,9 @@ public class UserController {
     @GetMapping("/login")
     @ApiOperation(value = "用户登录")
     @Transactional
-    public ResponseResult<Boolean> login(@RequestParam String id,@RequestParam String password){
+    public ResponseResult<Boolean> login(
+            @ApiParam(value = "账号") @RequestParam String id,
+            @ApiParam(value = "密码")@RequestParam String password){
         User user1=userService.findByID(id);
         if(user1==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,
@@ -78,7 +82,7 @@ public class UserController {
     @PostMapping("/singup")
     @ApiOperation(value = "用户注册")
     @Transactional
-    public ResponseResult<Boolean> singup(@RequestBody User user){
+    public ResponseResult<Boolean> singup(@ApiParam(value = "用户信息类")@RequestBody User user){
         if(userService.findByID(user.getUserID())!=null){
             return Response.makeRsp(ResultCode.ID_DUPLICATED.code,
                     "id\t"+user.getUserID()+"已被注册",false);
@@ -94,9 +98,9 @@ public class UserController {
     @ApiOperation(value="修改姓名")
     @Transactional
     public  ResponseResult<Boolean> changename(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestParam String newname){
+            @ApiParam(value = "账号")@RequestParam String id,
+            @ApiParam(value = "密码")@RequestParam String password,
+            @ApiParam(value = "新用户名字")@RequestParam String newname){
         User user1=userService.findByID(id);
         if(user1==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,
@@ -117,9 +121,9 @@ public class UserController {
     @ApiOperation(value="修改密码")
     @Transactional
     public  ResponseResult<Boolean> changepassword(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestParam String newpassword){
+            @ApiParam(value = "账号")@RequestParam String id,
+            @ApiParam(value = "原密码")@RequestParam String password,
+            @ApiParam(value = "新密码")@RequestParam String newpassword){
         User user1=userService.findByID(id);
         if(user1==null){
             return Response.makeRsp(ResultCode.USER_NOT_EXSIT.code,
@@ -130,7 +134,7 @@ public class UserController {
                     "密码错误",false);
         }
         else{
-            user1.setM_password(password);
+            user1.setM_password(newpassword);
             userService.update(user1);
             return Response.makeOKRsp("成功修改密码");
         }
@@ -140,8 +144,8 @@ public class UserController {
     @Transactional
     @ApiOperation("管理员获取所有普通用户")
     public ResponseResult<List<User>> getusers(
-            @RequestParam String id,
-            @RequestParam String password
+            @ApiParam(value = "账号")@RequestParam String id,
+            @ApiParam(value = "密码")@RequestParam String password
     ){
         User superuser=userService.findByID(id);
         if(superuser==null){
@@ -164,9 +168,9 @@ public class UserController {
     @Transactional
     @ApiOperation("管理员删除普通用户")
     public ResponseResult<List<User>> deleteUser(
-            @RequestParam String id,
-            @RequestParam String password,
-            @RequestParam String userid_tobedeleted
+            @ApiParam(value = "管理员账号")@RequestParam String id,
+            @ApiParam(value = "管理员密码")@RequestParam String password,
+            @ApiParam(value = "需要被注销的账号")@RequestParam String userid_tobedeleted
     ){
         User superuser=userService.findByID(id);
         if(superuser==null){
