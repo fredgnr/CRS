@@ -5,20 +5,13 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.Response;
 import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 @Api(tags="用户操作")
@@ -39,6 +32,11 @@ public class UserController {
 
     @GetMapping("/id")
     @ApiOperation(value = "根据id获取用户信息")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=102,message = "成功登录")
+    })
     @Transactional
     public ResponseResult<User> getuser(
             @ApiParam(value = "账号") @RequestParam String id,
@@ -61,6 +59,11 @@ public class UserController {
 
     @GetMapping("/login")
     @ApiOperation(value = "用户登录")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=102,message = "成功登录")
+    })
     @Transactional
     public ResponseResult<Boolean> login(
             @ApiParam(value = "账号") @RequestParam String id,
@@ -81,6 +84,10 @@ public class UserController {
 
     @PostMapping("/singup")
     @ApiOperation(value = "用户注册")
+    @ApiResponses({
+            @ApiResponse(code=103,message = "账号已存在"),
+            @ApiResponse(code=102,message = "成功注册")
+    })
     @Transactional
     public ResponseResult<Boolean> singup(@ApiParam(value = "用户信息类")@RequestBody User user){
         if(userService.findByID(user.getUserID())!=null){
@@ -96,6 +103,11 @@ public class UserController {
 
     @PutMapping("/changename")
     @ApiOperation(value="修改姓名")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=102,message = "成功修改信息")
+    })
     @Transactional
     public  ResponseResult<Boolean> changename(
             @ApiParam(value = "账号")@RequestParam String id,
@@ -119,6 +131,11 @@ public class UserController {
 
     @PutMapping("/changepassword")
     @ApiOperation(value="修改密码")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=102,message = "成功修改密码")
+    })
     @Transactional
     public  ResponseResult<Boolean> changepassword(
             @ApiParam(value = "账号")@RequestParam String id,
@@ -142,6 +159,12 @@ public class UserController {
 
     @GetMapping("/users")
     @Transactional
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "账户权限不够"),
+            @ApiResponse(code=102,message = "成功获取所有普通用户信息")
+    })
     @ApiOperation("管理员获取所有普通用户")
     public ResponseResult<List<User>> getusers(
             @ApiParam(value = "账号")@RequestParam String id,
@@ -167,6 +190,14 @@ public class UserController {
     @DeleteMapping("/deleteuser")
     @Transactional
     @ApiOperation("管理员删除普通用户")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "账户权限不够"),
+            @ApiResponse(code=105,message = "要删除的账号不存在"),
+            @ApiResponse(code=106,message = "管理员账号无法删除"),
+            @ApiResponse(code=102,message = "成功删除账号")
+    })
     public ResponseResult<List<User>> deleteUser(
             @ApiParam(value = "管理员账号")@RequestParam String id,
             @ApiParam(value = "管理员密码")@RequestParam String password,

@@ -11,9 +11,7 @@ import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
 import com.example.demo.utils.timemapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +62,10 @@ public class FeedBackController {
 
     @GetMapping("/user")
     @ApiOperation(value = "用户获取自己的反馈")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=102,message = "成功查询信息")
+    })
     @Transactional
     public  ResponseResult<List<FeedBack>> userget(@ApiParam(value = "查询账号")@RequestParam String id){
         User user=userService.findByID(id);
@@ -96,6 +98,11 @@ public class FeedBackController {
 
     @ApiOperation(value = "用户提交反馈")
     @PostMapping("/user")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "账号错误"),
+            @ApiResponse(code =102,message = "成功提交反馈")
+    })
     @Transactional
     public ResponseResult<FeedBack> postresponse(
             @ApiParam(value = "账号")@RequestParam String userid,
@@ -124,6 +131,13 @@ public class FeedBackController {
 
     @ApiOperation(value="管理员回复")
     @PutMapping("/manager")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "用户权限不够"),
+            @ApiResponse(code=109,message = "反馈ID错误"),
+            @ApiResponse(code=102,message = "成功处理反馈")
+    })
     @Transactional
     public ResponseResult<FeedBack> putresponse(
             @ApiParam(value = "管理员账号")@RequestParam String id,

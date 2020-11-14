@@ -8,9 +8,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.Response;
 import com.example.demo.utils.ResponseResult;
 import com.example.demo.utils.ResultCode;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +38,9 @@ public class ClassRoomController {
 
     @GetMapping("/classrooms")
     @ApiOperation(value = "查询所有教室")
+    @ApiResponses({
+            @ApiResponse(code=102,message = "成功获取所有教室信息")
+    })
     @Transactional
     public ResponseResult<List<ClassRoom>> findall(){
         return Response.makeOKRsp(classRoomService.findAll());
@@ -47,6 +48,13 @@ public class ClassRoomController {
 
     @PostMapping("/addclassroom")
     @ApiOperation(value="管理员添加教室")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "用户权限无法进行此操作"),
+            @ApiResponse(code=107,message = "该教室已存在"),
+            @ApiResponse(code=102,message = "成功添加教室")
+    })
     @Transactional
     public ResponseResult<ClassRoom> add(
             @ApiParam(value = "管理员账号")@RequestParam String id,
@@ -77,6 +85,13 @@ public class ClassRoomController {
 
     @PutMapping("/putclassroom")
     @ApiOperation(value="管理员修改教室信息")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "用户权限无法进行此操作"),
+            @ApiResponse(code=108,message = "该教室不存在"),
+            @ApiResponse(code=102,message = "成功修改教室信息")
+    })
     @Transactional
     public ResponseResult<ClassRoom> changeinfo(
             @ApiParam(value = "管理员账号") @RequestParam String id,
@@ -105,6 +120,13 @@ public class ClassRoomController {
 
     @DeleteMapping("/deleteclassroom")
     @ApiOperation(value="管理员删除教室")
+    @ApiResponses({
+            @ApiResponse(code=100,message = "账号不存在"),
+            @ApiResponse(code=101,message = "密码错误"),
+            @ApiResponse(code=104,message = "用户权限无法进行此操作"),
+            @ApiResponse(code=108,message = "该教室不存在"),
+            @ApiResponse(code=102,message = "成功删除教室")
+    })
     @Transactional
     public ResponseResult<ClassRoom> delete(
             @ApiParam(value = "管理员账号")@RequestParam String id,
