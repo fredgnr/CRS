@@ -26,6 +26,7 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "密码",required = true)
     String m_password;
+
     @ApiModelProperty(hidden = true)
     Integer priority;
 }

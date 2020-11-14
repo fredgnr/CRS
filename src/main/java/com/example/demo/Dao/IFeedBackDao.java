@@ -36,12 +36,12 @@ public interface IFeedBackDao {
             "</if>" +
             "<if test='startleft!=null and startright!=null'>" +
             " and (unix_timestamp(#{startleft})&lt;unix_timestamp(sendTime)" +
-            "   and unix_timestamp(sendTime)&lt;unix_timestamp(#{startright})" +
+            "   and unix_timestamp(sendTime)&lt;unix_timestamp(#{startright}))" +
             "</if>" +
             "<if test='endleft!=null and endright!=null'>" +
-            " and (unix_timestamp(#{endleft})&lt;unix_timestamp(processTime)" +
-            "   and unix_timestamp(processTime)&lt;unix_timestamp(#{endright} " +
-            "and state=2)" +
+            " and (state=1" +
+            " and unix_timestamp(#{endleft})&lt;unix_timestamp(processTime)" +
+            "   and unix_timestamp(processTime)&lt;unix_timestamp(#{endright}) )" +
             "</if>" +
             "</where>"+
             "</script>")
@@ -56,7 +56,7 @@ public interface IFeedBackDao {
             @Param("endright") Timestamp endright
     );
 
-    @Options(useGeneratedKeys = true,keyProperty = "ID",keyColumn = "ID")
+    @Options(useGeneratedKeys = true,keyProperty = "ID",keyColumn = "id")
     @Insert("insert into FeedBacks(saying ,sendTime,state,processTime,userID,backsaying) " +
             "values(#{saying} ,#{sendTime},#{state},#{processTime},#{userID},#{backsaying})")
     void addFeedBack(FeedBack feedBack);

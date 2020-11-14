@@ -41,7 +41,7 @@ public class FeedBackService {
     }
 
     public void addFeedBack(FeedBack feedBack){
-
+        iFeedBackDao.addFeedBack(feedBack);
     }
 
     public void updateFeedBack(FeedBack feedBack){

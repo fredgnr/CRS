@@ -88,11 +88,10 @@ public class FeedBackController {
             @RequestParam(required = false) String endleft,
             @RequestParam(required = false) String endright
     ){
-       /* List<FeedBack> feedBacks;
+        List<FeedBack> feedBacks;
         feedBacks=feedBackService.findByArgs(saying,state,userID,backsaying,startleft,startright,endleft,endright);
-        return Response.makeOKRsp(feedBacks);*/
-        System.out.println(timemapper.datestr2timestamp(startleft));
-        return Response.makeOKRsp("ok");
+        return Response.makeOKRsp(feedBacks);
+
     }
 
     @ApiOperation(value = "用户提交反馈")
@@ -113,6 +112,7 @@ public class FeedBackController {
         else{
             FeedBack feedBack=new FeedBack();
             feedBack.setSaying(saying);
+            feedBack.setUserID(userid);
             feedBack.setSendTime(new Timestamp(System.currentTimeMillis()));
             feedBack.setProcessTime(null);
             feedBack.setState(StateCode.UNPROCESSED.code);
